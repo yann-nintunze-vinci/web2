@@ -13,7 +13,7 @@ let getRequestCount = 0;
 app.use((req, _res, next) => {
     if (req.method === "GET") {
         getRequestCount++;
-        console.log(`GET / : ${getRequestCount}`);
+        console.log(`GET counter : ${getRequestCount}`);
     }
     next();
 });
