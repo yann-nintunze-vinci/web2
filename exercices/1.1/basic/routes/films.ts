@@ -4,7 +4,6 @@ import { Film } from "../types";
 
 const router = Router();
 
-
 const films: Film[] = [
   {
     id: 1,
