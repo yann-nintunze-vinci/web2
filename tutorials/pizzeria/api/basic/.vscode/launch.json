@@ -19,22 +19,6 @@
             "protocol": "inspector",
             "internalConsoleOptions": "openOnSessionStart"
         },
-        
-        {
-            "name": "ts-node",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${relativeFile}"
-            ],
-            "runtimeArgs": [
-                "-r",
-                "ts-node/register"
-            ],
-            "cwd": "${workspaceRoot}",
-            "protocol": "inspector",
-            "internalConsoleOptions": "openOnSessionStart"
-        },
 
         {
             "name": "Launch via NPM",
