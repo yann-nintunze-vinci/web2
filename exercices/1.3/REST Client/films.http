@@ -9,4 +9,14 @@ GET {{baseUrl}}/films
 GET {{baseUrl}}/films?minimum-duration=170
 
 ### Read film with id 3
-GET {{baseUrl}}/films/3
+GET {{baseUrl}}/films/-3
+
+### Add a new film
+POST {{baseUrl}}/films
+Content-Type: application/json
+
+{
+    "title": "The Godfather",
+    "director": "Francis Ford Coppola",
+    "duration": 175
+}

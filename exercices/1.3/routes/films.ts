@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { Film } from "../types";
+import { Film, NewFilm } from "../types";
 
 const router = Router();
 
@@ -61,6 +61,47 @@ router.get("/:id", (req, res) => {
   if (!film)
     return res.sendStatus(404);
   return res.json(film);
+});
+
+router.post("/", (req, res) => {
+  const body: unknown = req.body;
+
+  const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
+
+  if (!body || typeof body !== "object")
+    return res.sendStatus(400);
+
+  const bodyKeys = Object.keys(body);
+  const hasUnexpectedProperties = bodyKeys.some((key) => !allowedProperties.includes(key));
+  if (hasUnexpectedProperties)
+    return res.status(400).json({ message: "Unexpected properties found" });
+
+  if (!("title" in body) || !("director" in body) || !("duration" in body) || typeof body.title !== "string" || typeof body.director !== "string" || typeof body.duration !== "number")
+    return res.sendStatus(400);
+
+  if (body.duration <= 0)
+    return res.status(400).json({ message: "The duration must be a positive number" });
+
+  const { title, director, duration, budget, description, imageUrl } = body as NewFilm & { budget?: number, description?: string, imageUrl?: string };
+
+  if (budget !== undefined && budget <= 0)
+    return res.status(400).json({ message: "The budget must be a positive number" });
+
+  const nextId = films.reduce((maxId, film) => (film.id > maxId ? film.id : maxId), 0) + 1;
+
+  const newFilm: Film = {
+    id: nextId,
+    title,
+    director,
+    duration,
+    ...(budget && { budget }),
+    ...(description && { description }),
+    ...(imageUrl && { imageUrl })
+  };
+
+  films.push(newFilm);
+
+  return res.json(films);
 });
 
 
