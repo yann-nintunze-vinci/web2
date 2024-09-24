@@ -20,3 +20,15 @@ Content-Type: application/json
     "director": "Francis Ford Coppola",
     "duration": 175
 }
+
+### Read films starting with "The"
+GET {{baseUrl}}/films?starts-with=The
+
+### Order films by duration 'asc'
+GET {{baseUrl}}/films?order-by=duration
+
+### Order films by title 'asc'
+GET {{baseUrl}}/films?order-by=title
+
+### Read films in page 1 with limit 3
+GET {{baseUrl}}/films?page=1&limit=3

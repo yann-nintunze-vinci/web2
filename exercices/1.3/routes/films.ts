@@ -48,11 +48,30 @@ const films: Film[] = [
 ];
 
 router.get("/", (req, res) => {
-  if (!req.query["minimum-duration"])
-    return res.json(films);
-  const minDuration = Number(req.query["minimum-duration"]);
-  const filteredFilms = films.filter((film) => film.duration >= minDuration);
-  return res.json(filteredFilms);
+  let filteredFilms = films;
+  if (req.query["starts-with"]) {
+    const keyword = String(req.query["starts-with"]).toLowerCase();
+    filteredFilms = films.filter((film) => film.title.toLowerCase().startsWith(keyword));
+  }
+  if (req.query["minimum-duration"]) {
+    const minDuration = Number(req.query["minimum-duration"]);
+    filteredFilms = films.filter((film) => film.duration >= minDuration);
+  }
+  if (req.query["order-by"] === "title") {
+    filteredFilms = films.sort((a, b) => a.title.localeCompare(b.title));
+  }
+  if (req.query["order-by"] === "duration") {
+    filteredFilms = films.sort((a, b) => a.duration - b.duration);
+  }
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+
+  const paginatedFilms = filteredFilms.slice(startIndex, endIndex);
+
+  return res.json(paginatedFilms);
 });
 
 router.get("/:id", (req, res) => {
