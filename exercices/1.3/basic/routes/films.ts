@@ -47,8 +47,21 @@ const films: Film[] = [
   }
 ];
 
-router.get("/", (_req, res) => {
-  return res.json(films);
+router.get("/", (req, res) => {
+  if (!req.query["minimum-duration"])
+    return res.json(films);
+  const minDuration = Number(req.query["minimum-duration"]);
+  const filteredFilms = films.filter((film) => film.duration >= minDuration);
+  return res.json(filteredFilms);
 });
+
+router.get("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const film = films.find((film) => film.id === id);
+  if (!film)
+    return res.sendStatus(404);
+  return res.json(film);
+});
+
 
 export default router;

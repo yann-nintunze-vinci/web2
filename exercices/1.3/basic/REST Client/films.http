@@ -1,0 +1,12 @@
+### Read all films
+GET http://localhost:3000/films
+
+### Read all films with File variable
+@baseUrl = http://localhost:3000
+GET {{baseUrl}}/films
+
+### Read films with minimum duration of 170 minutes
+GET {{baseUrl}}/films?minimum-duration=170
+
+### Read film with id 3
+GET {{baseUrl}}/films/3
