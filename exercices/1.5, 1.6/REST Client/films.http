@@ -16,9 +16,9 @@ POST {{baseUrl}}/films
 Content-Type: application/json
 
 {
-    "title": "The Shawshank Redemption",
-    "director": "Frank Darabont",
-    "duration": 142
+    "title": "Zack Snyder's Justice League",
+    "director": "Zack Snyder",
+    "duration": 242
 }
 
 ### Read films starting with "The"
@@ -32,3 +32,25 @@ GET {{baseUrl}}/films?order-by=title
 
 ### Read films in page 1 with limit 3
 GET {{baseUrl}}/films?page=1&limit=3
+
+### Delete film with id 6
+DELETE {{baseUrl}}/films/6
+
+### Update film with id 3
+PATCH {{baseUrl}}/films/3
+Content-Type: application/json
+
+{
+    "imageUrl": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg"
+}
+
+### Update film with id 3
+PUT {{baseUrl}}/films/3
+Content-Type: application/json
+
+{
+    "title": "Ze Darque Naïte",
+    "director": "Kristofer Nolane",
+    "duration": 180,
+    "imageUrl": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg"
+}

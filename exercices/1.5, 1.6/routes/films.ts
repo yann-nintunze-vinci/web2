@@ -52,7 +52,8 @@ router.get("/", (req, res) => {
   if (req.query["starts-with"]) {
     const keyword = String(req.query["starts-with"]).toLowerCase().trim();
     filteredFilms = films.filter((film) => film.title.toLowerCase().trim().startsWith(keyword));
-  } else if (req.query["starts-with"] === "") {
+  }
+  if (req.query["starts-with"] === "") {
     return res.status(400).json("The starts-with query parameter must not be empty");
   }
 
@@ -72,7 +73,7 @@ router.get("/", (req, res) => {
   if (req.query["order-by"] === "") {
     return res.status(400).json("The order query parameter must not be empty");
   }
-  if (req.query["order-by"] !== "title" && req.query["order-by"] !== "duration") {
+  if (req.query["order-by"] && req.query["order-by"] !== "title" && req.query["order-by"] !== "duration") {
     return res.status(400).json("The order query parameter must be either title or duration");
   }
 
@@ -103,8 +104,8 @@ router.post("/", (req, res) => {
   const body: unknown = req.body;
 
   const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
-  
-  const status400 = [];
+
+  const status400: string[] = [];
 
   if (!body || typeof body !== "object")
     return res.sendStatus(400);
@@ -155,6 +156,150 @@ router.post("/", (req, res) => {
   };
 
   films.push(newFilm);
+
+  return res.json(films);
+});
+
+router.delete("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  if (isNaN(id))
+    return res.status(400).json("The id parameter must be a number");
+  const index = films.findIndex((film) => film.id === id);
+  if (index === -1)
+    return res.sendStatus(404);
+  const deletedFilm = films.splice(index, 1);
+  return res.json(deletedFilm);
+});
+
+router.patch("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  if (isNaN(id))
+    return res.status(400).json("The id parameter must be a number");
+  const film = films.find((film) => film.id === id);
+  if (!film)
+    return res.sendStatus(404);
+
+  const status400: string[] = [];
+
+  const body: unknown = req.body;
+
+  if (!body || typeof body !== "object")
+    return res.sendStatus(400);
+
+  const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
+
+  const hasUnexpectedProperties = Object.keys(body).some((key) => !allowedProperties.includes(key));
+
+  if (hasUnexpectedProperties)
+    return res.status(400).json("The body must only contain the following properties: title, director, duration, budget, description, imageUrl");
+
+  if ("title" in body && (typeof body.title !== "string" || !body.title.trim()))
+    status400.push("The title must be a non-empty string");
+
+  if ("director" in body && (typeof body.director !== "string" || !body.director.trim()))
+    status400.push("The director must be a non-empty string");
+
+  if ("duration" in body && (typeof body.duration !== "number" || body.duration <= 0))
+    status400.push("The duration must be a positive number");
+
+  if ("budget" in body && (typeof body.budget !== "number" || body.budget <= 0))
+    status400.push("The budget must be a positive number");
+
+  if ("description" in body && (typeof body.description !== "string" || !body.description.trim()))
+    status400.push("The description must be a non-empty string");
+
+  if ("imageUrl" in body && (typeof body.imageUrl !== "string" || !body.imageUrl.trim()))
+    status400.push("The imageUrl must be a non-empty string");
+
+  if (status400.length > 0)
+    return res.status(400).json(status400);
+
+  const { title, director, duration, budget, description, imageUrl }: Partial<NewFilm> = body;
+
+  if (title)
+    film.title = title;
+  if (director)
+    film.director = director;
+  if (duration)
+    film.duration = duration;
+  if (budget)
+    film.budget = budget;
+  if (description)
+    film.description = description;
+  if (imageUrl)
+    film.imageUrl = imageUrl;
+
+  return res.json(films);
+});
+
+router.put("/:id", (req, res) => {
+  const id = Number(req.params.id);
+  if (isNaN(id))
+    return res.status(400).json("The id parameter must be a number");
+  const film = films.find((film) => film.id === id);
+
+  const status400: string[] = [];
+
+  const body: unknown = req.body;
+
+  if (!body || typeof body !== "object")
+    return res.sendStatus(400);
+
+  const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
+
+  const hasUnexpectedProperties = Object.keys(body).some((key) => !allowedProperties.includes(key));
+
+  if (hasUnexpectedProperties)
+    return res.status(400).json("The body must only contain the following properties: title, director, duration, budget, description, imageUrl");
+
+  if (!("title" in body) || typeof body.title !== "string" || !body.title.trim())
+    status400.push("The title must be a non-empty string");
+
+  if (!("director" in body) || typeof body.director !== "string" || !body.director.trim())
+    status400.push("The director must be a non-empty string");
+
+  if (!("duration" in body) || typeof body.duration !== "number" || body.duration <= 0)
+    status400.push("The duration must be a positive number");
+
+  if ("budget" in body && (typeof body.budget !== "number" || body.budget <= 0))
+    status400.push("The budget must be a positive number");
+
+  if ("description" in body && (typeof body.description !== "string" || !body.description.trim()))
+    status400.push("The description must be a non-empty string");
+
+  if ("imageUrl" in body && (typeof body.imageUrl !== "string" || !body.imageUrl.trim()))
+    status400.push("The imageUrl must be a non-empty string");
+
+  if (status400.length > 0)
+    return res.status(400).json(status400);
+
+  const { title, director, duration, budget, description, imageUrl } = body as NewFilm;
+
+  const contains = films.some((film) => film.title === title && film.director === director);
+
+  if (contains)
+    return res.status(409).json("A film with the same title and director already exists");
+
+  if (!film) {
+    const nextId = films.reduce((maxId, film) => (film.id > maxId ? film.id : maxId), 0) + 1;
+    const newFilm: Film = {
+      id: nextId,
+      title,
+      director,
+      duration,
+      budget,
+      description,
+      imageUrl
+    };
+    films.push(newFilm);
+  } else {
+    film.title = title;
+    film.director = director;
+    film.duration = duration;
+    film.budget = budget;
+    film.description = description;
+    film.imageUrl = imageUrl;
+  }
 
   return res.json(films);
 });
