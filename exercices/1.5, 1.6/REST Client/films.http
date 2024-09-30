@@ -1,0 +1,34 @@
+### Read all films
+GET http://localhost:3000/films
+
+### Read all films with File variable
+@baseUrl = http://localhost:3000
+GET {{baseUrl}}/films
+
+### Read films with minimum duration of 170 minutes
+GET {{baseUrl}}/films?minimum-duration=170
+
+### Read film with id 3
+GET {{baseUrl}}/films/3
+
+### Add a new film
+POST {{baseUrl}}/films
+Content-Type: application/json
+
+{
+    "title": "The Shawshank Redemption",
+    "director": "Frank Darabont",
+    "duration": 142
+}
+
+### Read films starting with "The"
+GET {{baseUrl}}/films?starts-with=The
+
+### Order films by duration 'asc'
+GET {{baseUrl}}/films?order-by=duration
+
+### Order films by title 'asc'
+GET {{baseUrl}}/films?order-by=title
+
+### Read films in page 1 with limit 3
+GET {{baseUrl}}/films?page=1&limit=3
