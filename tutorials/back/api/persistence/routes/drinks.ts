@@ -54,6 +54,8 @@ router.get("/", (req, res) => {
   if (!req.query["budget-max"])
     return res.json(drinks);
   const budgetMax = Number(req.query["budget-max"]);
+  if (isNaN(budgetMax))
+    return res.sendStatus(400);
   const filteredDrinks = drinks.filter((drink) => {
     return drink.price <= budgetMax;
   });
@@ -62,6 +64,8 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
+  if (isNaN(id))
+    return res.sendStatus(400);
   const drinks = parse(jsonDbPath, defaultDrinks);
   const drink = drinks.find((drink) => drink.id === id);
   if (!drink)
@@ -94,6 +98,8 @@ router.post("/", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
+  if (isNaN(id))
+    return res.sendStatus(400);
   const drinks = parse(jsonDbPath, defaultDrinks);
   const index = drinks.findIndex((drink) => drink.id === id);
   if (index === -1)
