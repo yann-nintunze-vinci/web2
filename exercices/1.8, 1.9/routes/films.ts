@@ -186,15 +186,13 @@ router.put("/:id", (req, res) => {
 
   if (updatedFilm === 404) {
     const createdFilm = createOneFilm({ title, director, duration, budget, description, imageUrl });
-    if (!createdFilm) {
+    if (!createdFilm)
       return res.status(409).json("A film with the same title and director already exists");
-    }
     return res.json(createdFilm);
   }
 
-  if (updatedFilm === 409) {
+  if (updatedFilm === 409)
     return res.status(409).json("A film with the same title and director already exists");
-  }
 
   return res.json(updatedFilm);
 });
