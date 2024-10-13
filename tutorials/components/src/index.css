@@ -30,6 +30,18 @@ body {
   min-height: 100vh;
 }
 
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-image: url(./assets/images/pizza.jpg);
+  background-size: cover;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
