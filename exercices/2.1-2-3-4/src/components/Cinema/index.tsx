@@ -1,3 +1,5 @@
+import './Cinema.css';
+
 interface Movie {
   title: string;
   director: string;

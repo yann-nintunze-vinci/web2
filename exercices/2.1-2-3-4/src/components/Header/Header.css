@@ -1,0 +1,16 @@
+h1:hover {
+  opacity: 0.5;
+}
+
+h1 {
+  transition: 300ms ease-in-out;
+}
+
+img:hover {
+    transform: scale(1.01);
+}
+
+img {
+  transition: 300ms ease-in-out;
+  height: 500px;
+}
