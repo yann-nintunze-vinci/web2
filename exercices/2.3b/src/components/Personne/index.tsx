@@ -1,16 +1,19 @@
+import "./Personne.css";
 
 interface PersonneProps {
   name: string;
   age: number;
+  isOnline: boolean;
 }
 
-const Personne = ({ name, age }: PersonneProps) => {
+const Personne = ({ name, age, isOnline }: PersonneProps) => {
   return (
     <div>
-      <ul>
-        <li>{name}</li>
-        <li>{age}</li>
-      </ul>
+      <h1>{name}</h1>
+      <p>{age}</p>
+      <p className={isOnline ? "online" : "offline"}>
+        {isOnline ? "En ligne" : "Hors ligne"}
+      </p>
     </div>
   );
 };

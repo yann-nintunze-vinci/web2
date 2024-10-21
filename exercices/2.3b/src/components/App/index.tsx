@@ -8,14 +8,17 @@ const App = () => {
     {
       name: "Alice",
       age: 25,
+      isOnline: false
     },
     {
       name: "Bob",
       age: 30,
+      isOnline: true
     },
     {
       name: "Charlie",
       age: 35,
+      isOnline: true
     },
   ];
   const footerText = "© 2023 My App";
@@ -25,7 +28,7 @@ const App = () => {
     <div>
       <Title title={title}/>
       {personnes.map((personne, index) => (
-        <Personne key={index} {...personne} />
+        <Personne key={index} {... personne} />
       ))}
       <Footer text={footerText} />
     </div>
