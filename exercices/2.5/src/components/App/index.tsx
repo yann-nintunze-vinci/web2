@@ -1,10 +1,10 @@
 import './App.css'
-import Header from '../Header/'
+import ClickCounter from '../ClickCounter'
 
 function App() {
   return (
     <>
-      <Header title='Titre' message='You are a master in the art of clicking !'/>
+      <ClickCounter title='Titre'/>
     </>
   )
 }
