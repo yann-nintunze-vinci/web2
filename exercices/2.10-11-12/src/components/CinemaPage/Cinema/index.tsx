@@ -1,10 +1,10 @@
 import "./Cinema.css";
 import FilmPage from "../Film";
-import { Film } from "../../../types";
+import { NewFilm } from "../../../types";
 
 interface CinemaProps {
   name: string;
-  films: Film[];
+  films: NewFilm[];
 }
 
 const Cinema = ({ name, films }: CinemaProps) => {
@@ -17,7 +17,7 @@ const Cinema = ({ name, films }: CinemaProps) => {
             <FilmPage
               title={film.title}
               director={film.director}
-              description={film.description}
+              minutes={film.minutes}
             />
           </li>
         ))}

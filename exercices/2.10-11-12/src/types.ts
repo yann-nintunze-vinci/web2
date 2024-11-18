@@ -1,8 +1,15 @@
 interface Film {
+    id: number;
     title: string;
     director: string;
-    description?: string;
-    minutes?: number;
+    minutes: number;
 }
 
-export type { Film };
+type NewFilm = Omit<Film, "id">;
+
+interface FilmContext {
+    films: Film[];
+    addFilm: (newFilm: NewFilm) => void;
+}
+
+export type { Film, FilmContext, NewFilm };
