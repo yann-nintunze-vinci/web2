@@ -24,23 +24,20 @@ function App() {
       .catch((err) => {
         console.error("HomePage::error: ", err);
       });
-  }
+  };
 
   useEffect(() => {
     fetchJoke();
   }, []);
 
-  return(
+  return (
     <div>
-      {joke ? (
-        <div>
+      {joke && (
+        <div onClick={fetchJoke}>
           <p>{joke.category}</p>
           <p>{joke.joke}</p>
         </div>
-      ) : (
-        <p>null</p>
       )}
-      <button onClick={fetchJoke}>Change Joke</button>
     </div>
   );
 }
