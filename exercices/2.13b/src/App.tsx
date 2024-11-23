@@ -9,7 +9,7 @@ interface Dog {
 function App() {
   const defaultDog: Dog = {
     message: "",
-    status: "failed",
+    status: "",
   };
   const [dog, setDog] = useState<Dog>(defaultDog);
 
@@ -34,11 +34,18 @@ function App() {
     fetchDog();
   }, []);
 
+  interface RandomDogProps {
+    dog: Dog;
+    fetchDog: () => void;
+  }
+
+  const RandomDog = ({ dog, fetchDog }: RandomDogProps) => {
+    return <img onClick={fetchDog} src={dog.message} alt="Dog" />;
+  };
+
   return (
     <div>
-      {dog.status === "success" && (
-        <img onClick={fetchDog} src={dog.message} alt="Dog" />
-      )}
+      {dog.status === "success" && <RandomDog dog={dog} fetchDog={fetchDog} />}
     </div>
   );
 }
