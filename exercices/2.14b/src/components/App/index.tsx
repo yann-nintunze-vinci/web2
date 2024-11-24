@@ -10,6 +10,7 @@ const defaultDog: Dog = {
 
 const App = () => {
   const [dog, setDog] = useState<Dog>(defaultDog);
+  const [action, setAction] = useState<boolean>(false);
 
   const fetchDog = async () => {
     try {
@@ -27,15 +28,29 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchDog();
     const interval = setInterval(() => {
-      fetchDog();
+      if (action) {
+        clearInterval(interval);
+      } else {
+        fetchDog();
+      }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [action]);
 
-  return <div>{dog.status === "success" && <RandomDog dog={dog} />}</div>;
+  return (
+    <div>
+      {dog.status === "success" && (
+        <RandomDog
+          ActionOnMouseEnter={() => setAction(true)}
+          ActionOnMouseLeave={() => setAction(false)}
+          dog={dog}
+        />
+      )}
+      <p>{action ? "true" : "false"}</p>
+    </div>
+  );
 };
 
 export default App;
