@@ -48,60 +48,88 @@ const defaultDrinks: Drink[] = [
 
 function readAllDrinks(budgetMax: number): Drink[] {
   const drinks = parse(jsonDbPath, defaultDrinks);
-  if (!budgetMax)
+  if (!budgetMax) {
     return drinks;
+  }
+
   const budgetMaxNumber = Number(budgetMax);
-  const filteredDrinks = drinks.filter(d => d.price <= budgetMaxNumber);
+
+  const filteredDrinks = drinks.filter((drink) => {
+    return drink.price <= budgetMaxNumber;
+  });
   return filteredDrinks;
 }
 
 function readOneDrink(id: number): Drink | undefined {
   const drinks = parse(jsonDbPath, defaultDrinks);
-  const drink = drinks.find(d => d.id === id);
-  if (!drink)
+  const drink = drinks.find((drink) => drink.id === id);
+  if (!drink) {
     return undefined;
+  }
   return drink;
 }
 
-function createOneDrink(newDrink: NewDrink): Drink | undefined {
+function createOneDrink(newDrink: NewDrink): Drink {
   const drinks = parse(jsonDbPath, defaultDrinks);
-  const nextId = drinks.reduce((maxId, drink) => (drink.id > maxId ? drink.id : maxId), 0) + 1;
-  const createdDrink = { id: nextId, ...newDrink };
-  const hasDouble = drinks.some(d => d.title === createdDrink.title && d.volume === createdDrink.volume);
-  if (hasDouble)
-    return undefined;
+
+  const nextId =
+    drinks.reduce((maxId, drink) => (drink.id > maxId ? drink.id : maxId), 0) +
+    1;
+
+  const createdDrink = {
+    id: nextId,
+    ...newDrink,
+  };
+
   drinks.push(createdDrink);
   serialize(jsonDbPath, drinks);
+
   return createdDrink;
 }
 
 function deleteOneDrink(drinkId: number): Drink | undefined {
   const drinks = parse(jsonDbPath, defaultDrinks);
-  const index = drinks.findIndex(d => d.id === drinkId);
-  if (index === -1)
+  const index = drinks.findIndex((drink) => drink.id === drinkId);
+  if (index === -1) {
     return undefined;
+  }
+
   const deletedElements = drinks.splice(index, 1);
   serialize(jsonDbPath, drinks);
   return deletedElements[0];
 }
 
-function updateOneDrink(drinkId: number, newDrink: Partial<NewDrink>): Drink | undefined {
+function updateOneDrink(
+  drinkId: number,
+  newDrink: Partial<NewDrink>
+): Drink | undefined {
   const drinks = parse(jsonDbPath, defaultDrinks);
-  const drink = drinks.find(d => d.id === drinkId);
-  if (!drink)
+  const drink = drinks.find((drink) => drink.id === drinkId);
+  if (!drink) {
     return undefined;
+  }
 
-  if (newDrink.title !== undefined)
-    drink.title = newDrink.title!;
-  if (newDrink.image !== undefined)
+  if (newDrink.title !== undefined) {
+    drink.title = newDrink.title!; // the router already checks for the presence of title
+  }
+  if (newDrink.image !== undefined) {
     drink.image = newDrink.image!;
-  if (newDrink.volume !== undefined)
+  }
+  if (newDrink.volume !== undefined) {
     drink.volume = newDrink.volume!;
-  if (newDrink.price !== undefined)
+  }
+  if (newDrink.price !== undefined) {
     drink.price = newDrink.price!;
+  }
 
   serialize(jsonDbPath, drinks);
   return drink;
 }
 
-export { readAllDrinks, readOneDrink, createOneDrink, deleteOneDrink, updateOneDrink };
+export {
+  readAllDrinks,
+  readOneDrink,
+  createOneDrink,
+  deleteOneDrink,
+  updateOneDrink,
+};

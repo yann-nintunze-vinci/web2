@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { NewPizza, PizzaToUpdate } from "../types";
 import {
   createPizza,
@@ -20,8 +21,9 @@ router.get("/error", (_req, _res, _next) => {
    GET /pizzas?order=-title : descending order by title
 */
 router.get("/", (req, res) => {
-  if (req.query.order && typeof req.query.order !== "string")
+  if (req.query.order && typeof req.query.order !== "string") {
     return res.sendStatus(400);
+  }
 
   const pizzas = readAllPizzas(req.query.order);
   return res.json(pizzas);
@@ -31,8 +33,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const id = Number(req.params.id);
   const pizza = readPizzaById(id);
-  if (!pizza)
-    return res.sendStatus(404);
+  if (!pizza) return res.sendStatus(404);
   return res.json(pizza);
 });
 
@@ -48,12 +49,14 @@ router.post("/", (req, res) => {
     typeof body.content !== "string" ||
     !body.title.trim() ||
     !body.content.trim()
-  )
+  ) {
     return res.sendStatus(400);
+  }
 
   const { title, content } = body as NewPizza;
 
   const addedPizza = createPizza({ title, content });
+
   return res.json(addedPizza);
 });
 
@@ -61,8 +64,8 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
   const id = Number(req.params.id);
   const deletedPizza = deletePizza(id);
-  if (!deletedPizza)
-    return res.sendStatus(404);
+  if (!deletedPizza) return res.sendStatus(404);
+
   return res.json(deletedPizza);
 });
 
@@ -76,15 +79,16 @@ router.patch("/:id", (req, res) => {
       (typeof body.title !== "string" || !body.title.trim())) ||
     ("content" in body &&
       (typeof body.content !== "string" || !body.content.trim()))
-  )
+  ) {
     return res.sendStatus(400);
+  }
 
   const pizzaToUpdate: PizzaToUpdate = body;
 
   const id = Number(req.params.id);
   const updatedPizza = updatePizza(id, pizzaToUpdate);
-  if (!updatedPizza)
-    return res.sendStatus(404);
+  if (!updatedPizza) return res.sendStatus(404);
+
   return res.json(updatedPizza);
 });
 

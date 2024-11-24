@@ -6,30 +6,16 @@ import drinkRouter from "./routes/drinks";
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-//Bonus
-const requestCounts: { [key: string]: { [key: string]: number } } = {
-  GET: {},
-  POST: {},
-  PUT: {},
-  DELETE: {}
-};
-
-app.use((req, _res, next) => {
-  const url = req.originalUrl;
-  const method = req.method;
-  if (!requestCounts[method]) {
-    requestCounts[method] = {};
-  }
-  if (!requestCounts[method][url]) {
-    requestCounts[method][url] = 0;
-  }
-  requestCounts[method][url]++;
-  console.log(`${method} ${url} : ${requestCounts[method][url]}`);
+app.use((_req, _res, next) => {
+  console.log(
+    "Time:",
+    new Date().toLocaleString("fr-FR", { timeZone: "Europe/Brussels" })
+  );
   next();
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/users", usersRouter);
 app.use("/pizzas", pizzaRouter);
@@ -41,5 +27,4 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 };
 
 app.use(errorHandler);
-
 export default app;

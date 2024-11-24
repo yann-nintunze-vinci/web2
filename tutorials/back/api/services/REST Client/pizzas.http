@@ -41,6 +41,9 @@ Content-Type: application/json
 
 ######### ERROR OPERATION  ###########
 
+### Read the pizza error
+GET {{baseUrl}}/pizzas/error
+
 ### Read pizza which does not exists
 GET {{baseUrl}}/pizzas/100
 
