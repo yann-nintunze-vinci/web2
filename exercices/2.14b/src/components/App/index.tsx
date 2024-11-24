@@ -28,13 +28,14 @@ const App = () => {
 
   useEffect(() => {
     fetchDog();
+    const interval = setInterval(() => {
+      fetchDog();
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div>
-      {dog.status === "success" && <RandomDog dog={dog} fetchDog={fetchDog} />}
-    </div>
-  );
+  return <div>{dog.status === "success" && <RandomDog dog={dog} />}</div>;
 };
 
 export default App;

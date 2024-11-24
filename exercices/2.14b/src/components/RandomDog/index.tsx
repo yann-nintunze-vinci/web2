@@ -3,15 +3,10 @@ import "./RandomDog.css";
 
 interface RandomDogProps {
   dog: Dog;
-  fetchDog: () => void;
 }
 
-const RandomDog = ({ dog, fetchDog }: RandomDogProps) => {
-  return (
-    <div>
-      <img onClick={fetchDog} src={dog.message} alt="Dog" />
-    </div>
-  );
+const RandomDog = ({ dog }: RandomDogProps) => {
+  return <img src={dog.message} alt="Dog" />;
 };
 
 export default RandomDog;
