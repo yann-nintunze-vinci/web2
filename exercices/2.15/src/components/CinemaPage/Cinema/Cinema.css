@@ -1,0 +1,31 @@
+h2 {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.3s ease-out;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+h2:hover {
+  transform: scale(1.05);
+}
+
+h2:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.listFilmPage:hover {
+  cursor: pointer;
+}
