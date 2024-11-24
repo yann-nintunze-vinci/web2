@@ -68,13 +68,16 @@ function sortByOrder(orderBy: string) {
     return films.sort((a, b) => orderBy === "title" ? a.title.localeCompare(b.title) : a.duration - b.duration);
 }
 
+/*
 function paginate(films: Film[], page: number, limit: number) {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     return films.slice(startIndex, endIndex);
 }
 
-function readAllFilms(startsWith: string | undefined, minimumDuration: number | undefined, orderBy: string | undefined, page: number, limit: number): Film[] {
+*/
+
+function readAllFilms(startsWith: string | undefined, minimumDuration: number | undefined, orderBy: string | undefined /*, page: number, limit: number */): Film[] {
     let films = parse(jsonDbPath, defaultFilms);
     if (startsWith) {
         films = filterByStartsWith(startsWith);
@@ -83,7 +86,8 @@ function readAllFilms(startsWith: string | undefined, minimumDuration: number | 
     } else if (orderBy) {
         films = sortByOrder(orderBy);
     }
-    return paginate(films, page, limit);
+    //return paginate(films, page, limit);
+    return films;
 }
 
 function readOneFilm(id: number): Film | undefined {
