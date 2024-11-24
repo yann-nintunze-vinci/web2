@@ -49,7 +49,7 @@ const App = () => {
 
   async function getAllPizzas() {
     try {
-      const response = await fetch("http://localhost:3000/pizzas");
+      const response = await fetch("/api/pizzas");
 
       if (!response.ok)
         throw new Error(
@@ -74,7 +74,7 @@ const App = () => {
         },
       };
 
-      const response = await fetch("http://localhost:3000/pizzas", options);
+      const response = await fetch("/api/pizzas", options);
 
       if (!response.ok)
         throw new Error(
