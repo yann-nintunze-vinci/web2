@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Joke from "../../type";
+import RandomJoke from "../RandomJoke";
 
-interface Joke {
-  category: string;
-  joke: string;
-}
+const defaultJoke: Joke = {
+  category: "",
+  joke: "",
+};
 
 function App() {
-  const [joke, setJoke] = useState<Joke | null>(null);
+  const [joke, setJoke] = useState<Joke>(defaultJoke);
 
   const fetchJoke = () => {
     fetch("https://v2.jokeapi.dev/joke/Any?type=single")
@@ -27,19 +29,14 @@ function App() {
   };
 
   useEffect(() => {
-    fetchJoke();
+    const interval = setInterval(() => {
+      fetchJoke();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div>
-      {joke && (
-        <div onClick={fetchJoke}>
-          <p>{joke.category}</p>
-          <p>{joke.joke}</p>
-        </div>
-      )}
-    </div>
-  );
+  return <RandomJoke joke={joke} />;
 }
 
 export default App;

@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Dog from "../../type";
+import RandomDog from "../RandomDog";
 
-interface Dog {
-  message: string;
-  status: string;
-}
+const defaultDog: Dog = {
+  message: "",
+  status: "",
+};
 
-function App() {
-  const defaultDog: Dog = {
-    message: "",
-    status: "",
-  };
+const App = () => {
   const [dog, setDog] = useState<Dog>(defaultDog);
 
   const fetchDog = () => {
@@ -34,20 +32,11 @@ function App() {
     fetchDog();
   }, []);
 
-  interface RandomDogProps {
-    dog: Dog;
-    fetchDog: () => void;
-  }
-
-  const RandomDog = ({ dog, fetchDog }: RandomDogProps) => {
-    return <img onClick={fetchDog} src={dog.message} alt="Dog" />;
-  };
-
   return (
     <div>
       {dog.status === "success" && <RandomDog dog={dog} fetchDog={fetchDog} />}
     </div>
   );
-}
+};
 
 export default App;
