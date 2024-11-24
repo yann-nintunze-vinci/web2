@@ -1,0 +1,10 @@
+.list li span {
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: 0.1s ease-in-out;
+}
+
+.list li span:hover {
+  color: #007aff;
+  text-decoration: underline;
+}
