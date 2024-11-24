@@ -1,0 +1,10 @@
+img {
+    max-width: 500px;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+img:hover {
+    box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+    transform: scale(1.1);
+}
