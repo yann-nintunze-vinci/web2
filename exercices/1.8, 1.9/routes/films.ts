@@ -16,9 +16,9 @@ router.get("/", (req, res) => {
     const startsWith = req.query["starts-with"] !== undefined ? String(req.query["starts-with"]) : undefined;
     const minimumDuration = req.query["minimum-duration"] !== undefined ? Number(req.query["minimum-duration"]) : undefined;
     const orderBy = req.query["order-by"] !== undefined ? String(req.query["order-by"]) : undefined;
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 5;
-    const films = readAllFilms(startsWith, minimumDuration, orderBy, page, limit);
+    // const page = Number(req.query.page) || 1;
+    // const limit = Number(req.query.limit) || 5;
+    const films = readAllFilms(startsWith, minimumDuration, orderBy);
     return res.json(films);
   } catch (error) {
     return res.status(400).json(error);
