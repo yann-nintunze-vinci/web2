@@ -21,7 +21,7 @@ const defaultUsers: User[] = [
     id: 2,
     username: "casual",
     password: bcrypt.hashSync("casual", saltRounds),
-  }
+  },
 ];
 
 async function login(

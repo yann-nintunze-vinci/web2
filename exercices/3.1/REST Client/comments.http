@@ -1,0 +1,97 @@
+### File variable
+@baseUrl = http://localhost:3000
+
+### First login as a casual user
+# @name casual
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"casual",
+    "password":"casual"
+}
+
+
+### Read all comments without auth => 401
+GET {{baseUrl}}/comments
+
+### Read all comments with auth
+GET {{baseUrl}}/comments
+Authorization: {{casual.response.body.token}}
+
+### Read all comments with film filter
+GET {{baseUrl}}/comments?film=The Shawshank Redemption
+Authorization: {{casual.response.body.token}}
+
+### Read all comments with username filter
+GET {{baseUrl}}/comments?username=admin
+Authorization: {{casual.response.body.token}}
+
+### Read existant comments (1) without auth
+GET {{baseUrl}}/comments/1
+
+### Read existant comments (1) with auth
+GET {{baseUrl}}/comments/1
+Authorization: {{casual.response.body.token}}
+
+### Read inexistant comment (-1) with auth => 404
+GET {{baseUrl}}/comments/-1
+Authorization: {{casual.response.body.token}}
+
+### Create comment without auth => 401
+POST {{baseUrl}}/comments
+Content-Type: application/json
+
+{
+    "film": 4,
+    "username": "casual",
+    "comment": "awesome"
+}
+
+#### Create a comment with a casual token
+POST {{baseUrl}}/comments
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "film": 4,
+    "username": "casual",
+    "comment": "awesome"
+}
+
+### Delete a existant comment without auth => 401
+DELETE {{baseUrl}}/comments/1
+
+### Delete a inexistant comment with auth => 404
+DELETE {{baseUrl}}/comments/-1
+Authorization: {{casual.response.body.token}}
+
+### Delete a existant comment with auth
+DELETE {{baseUrl}}/comments/1
+Authorization: {{casual.response.body.token}}
+
+### Update a existant comment without auth => 401
+PATCH {{baseUrl}}/comments/1
+Content-Type: application/json
+
+{
+    "comment": "ts suck"
+}
+
+### Update a inexistant comment with auth => 404
+PATCH {{baseUrl}}/comments/-1
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "comment": "ts suck"
+}
+
+### Update a existant comment with auth
+PATCH {{baseUrl}}/comments/1
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "comment": "ts suck"
+}

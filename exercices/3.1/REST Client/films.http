@@ -4,7 +4,7 @@
 ### Read all films
 GET {{baseUrl}}/films
 
-### Read existant film (3)
+### Read existant film (1)
 GET {{baseUrl}}/films/1
 
 ### Read inexistant film (-1) => 404

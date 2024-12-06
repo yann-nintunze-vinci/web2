@@ -42,7 +42,8 @@ function readOneFilm(id: number): undefined | Film {
 
 function createFilm(newFilm: NewFilm): Film {
   const films = parse(jsonDbPath, defaultFilms);
-  const nextId = films[films.length - 1].id + 1;
+  const nextId =
+    films.reduce((max, film) => (film.id > max ? film.id : max), 0) + 1;
   const film: Film = { id: nextId, ...newFilm };
   const updatedFilms = [...films, film];
   serialize(jsonDbPath, updatedFilms);
@@ -59,15 +60,10 @@ function deleteFilm(id: number): Film | undefined {
   return deletedElements[0];
 }
 
-function updateFilm(
-  id: number,
-  updatedFilm: Partial<NewFilm>
-): Film | undefined {
+function updateFilm(id: number, updatedFilm: Partial<Film>): Film | undefined {
   const films = parse(jsonDbPath, defaultFilms);
   const film = films.find((film) => film.id === id);
   if (!film) return undefined;
-
-  console.log(film);
 
   if (updatedFilm.title !== undefined) film.title = updatedFilm.title!;
 

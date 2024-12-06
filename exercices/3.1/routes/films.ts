@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authorize } from "../utils/auths";
-import { NewFilm } from "../types";
+import { Film, NewFilm } from "../types";
 import {
   createFilm,
   deleteFilm,
@@ -44,8 +44,6 @@ router.post("/", authorize, (req, res) => {
   ) {
     return res.sendStatus(400);
   }
-
-  console.log(body);
 
   const { title, director, duration, budget, description, imageUrl } =
     body as NewFilm;
@@ -95,7 +93,7 @@ router.patch("/:id", authorize, (req, res) => {
     budget,
     description,
     imageUrl,
-  }: Partial<NewFilm> = body;
+  }: Partial<Film> = body;
   
   const updatedFilm = updateFilm(id, { title, director, duration, budget, description, imageUrl });
   if (!updatedFilm) return res.sendStatus(404);
