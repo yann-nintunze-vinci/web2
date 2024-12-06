@@ -4,7 +4,7 @@ import path from "node:path";
 import { parse, serialize } from "../utils/json";
 import { AuthenticatedUser, User } from "../types";
 
-const jwtSecret = "ilovemypizza!";
+const jwtSecret = "ilovemyfilm!";
 const lifetimeJwt = 24 * 60 * 60 * 1000; // in ms : 24 * 60 * 60 * 1000 = 24h
 
 const saltRounds = 10;
@@ -17,6 +17,11 @@ const defaultUsers: User[] = [
     username: "admin",
     password: bcrypt.hashSync("admin", saltRounds),
   },
+  {
+    id: 2,
+    username: "casual",
+    password: bcrypt.hashSync("casual", saltRounds),
+  }
 ];
 
 async function login(

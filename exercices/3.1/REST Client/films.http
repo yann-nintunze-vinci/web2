@@ -1,0 +1,80 @@
+### File variable
+@baseUrl = http://localhost:3000
+
+### Read all films
+GET {{baseUrl}}/films
+
+### Read existant film (3)
+GET {{baseUrl}}/films/1
+
+### Read inexistant film (-1) => 404
+GET {{baseUrl}}/films/-1
+
+### Create film without auth => 401
+POST {{baseUrl}}/films
+Content-Type: application/json
+
+{
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "duration": 148
+}
+
+### Create film with auth
+### First login as a casual user
+# @name casual
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+    "username":"casual",
+    "password":"casual"
+}
+
+#### Create a film with a casual token
+POST {{baseUrl}}/films
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "title": "Inception",
+    "director": "Christopher Nolan",
+    "duration": 148
+}
+
+### Delete a existant film without auth => 401
+DELETE {{baseUrl}}/films/1
+
+### Delete a inexistant film with auth => 404
+DELETE {{baseUrl}}/films/-1
+Authorization: {{casual.response.body.token}}
+
+### Delete a existant film with auth
+DELETE {{baseUrl}}/films/1
+Authorization: {{casual.response.body.token}}
+
+### Update a existant film without auth => 401
+PATCH {{baseUrl}}/films/1
+Content-Type: application/json
+
+{
+    "title": "TSR"
+}
+
+### Update a inexistant film with auth => 404
+PATCH {{baseUrl}}/films/-1
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "title": "TSR"
+}
+
+### Update a existant film with auth
+PATCH {{baseUrl}}/films/1
+Content-Type: application/json
+Authorization: {{casual.response.body.token}}
+
+{
+    "title": "TSR"
+}

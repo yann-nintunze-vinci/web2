@@ -3,7 +3,7 @@ import { readOneUserFromUsername } from "../services/users";
 import { NextFunction, RequestHandler, Response } from "express";
 import { AuthenticatedRequest, JwtPayload, User } from "../types";
 
-const jwtSecret = "ilovemypizza!";
+const jwtSecret = "ilovemyfilm!";
 
 const authorize = (
   req: AuthenticatedRequest,
