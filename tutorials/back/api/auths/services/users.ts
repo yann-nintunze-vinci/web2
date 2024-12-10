@@ -13,7 +13,6 @@ const jsonDbPath = path.join(__dirname, "/../data/users.json");
 
 const defaultUsers: User[] = [
   {
-    id: 1,
     username: "admin",
     password: bcrypt.hashSync("admin", saltRounds),
   },
@@ -40,7 +39,7 @@ async function login(
 
 async function register(
   username: string,
-  password: string
+  password: string,
 ): Promise<AuthenticatedUser | undefined> {
   const userFound = readOneUserFromUsername(username);
   if (userFound) return undefined;
@@ -70,11 +69,7 @@ async function createOneUser(username: string, password: string) {
 
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-  const nextId =
-    users.reduce((acc, user) => (user.id > acc ? user.id : acc), 0) + 1;
-
   const createdUser: User = {
-    id: nextId,
     username,
     password: hashedPassword,
   };

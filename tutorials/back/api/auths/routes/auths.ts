@@ -5,7 +5,7 @@ In Express V4, asynchronous functions are not fully supported in TypeScript
 In Express V5, this issue has been addressed, but V5 is still in beta. 
 Consequently, the ESLint rule "no-misused-promises" is disabled. */
 import { register, login } from "../services/users";
-import { PotentialUser } from "../types";
+import { User } from "../types";
 import express from "express";
 
 const router = express.Router();
@@ -24,7 +24,7 @@ router.post("/register", async (req, res) => {
   )
     return res.sendStatus(400);
 
-  const { username, password } = body as PotentialUser;
+  const { username, password } = body as User;
 
   const authenticatedUser = await register(username, password);
 
@@ -47,7 +47,7 @@ router.post("/login", async (req, res) => {
   )
     return res.sendStatus(400);
 
-  const { username, password } = body as PotentialUser;
+  const { username, password } = body as User;
 
   const authenticatedUser = await login(username, password);
 
