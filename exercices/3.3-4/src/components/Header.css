@@ -1,0 +1,30 @@
+:root {
+  --background-color-light: #f0f0f0;
+  --text-color-light: #000;
+  --background-color-dark: #333;
+  --text-color-dark: #fff;
+}
+
+.header {
+  background-color: var(--background-color-light);
+  color: var(--text-color-light);
+  text-align: center;
+  padding: 10px;
+  display: flex;
+  justify-content: start;
+}
+
+.logo {
+  padding: 10px;
+  height: 50px;
+}
+
+.header.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
+
+.footer.dark {
+  background-color: var(--background-color-dark);
+  color: var(--text-color-dark);
+}
