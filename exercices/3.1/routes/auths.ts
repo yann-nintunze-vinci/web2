@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
   const authenticatedUser = await login(username, password);
 
   if (!authenticatedUser) {
-    return res.sendStatus(401);
+    return res.sendStatus(404);
   }
 
   return res.json(authenticatedUser);

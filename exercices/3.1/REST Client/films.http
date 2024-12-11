@@ -76,5 +76,5 @@ Content-Type: application/json
 Authorization: {{casual.response.body.token}}
 
 {
-    "title": "TSR"
+    "imageUrl": "https://i.scdn.co/image/ab67616d0000b273e710c1f5b228046932790031"
 }

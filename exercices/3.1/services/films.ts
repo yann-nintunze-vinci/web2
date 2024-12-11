@@ -12,13 +12,16 @@ const defaultFilms: Film[] = [
     budget: 25000000,
     description:
       "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-    imageUrl: "https://example.com/shawshank.jpg",
+    imageUrl:
+      "https://i.scdn.co/image/ab67616d0000b273e710c1f5b228046932790031",
   },
   {
     id: 2,
     title: "The Godfather",
     director: "Francis Ford Coppola",
     duration: 175,
+    imageUrl:
+      "https://i0.wp.com/jerseymanmagazine.com/wp-content/uploads/2022/04/The-Godfather-e1648766305891.jpg?fit=1396%2C1412&ssl=1",
   },
   {
     id: 3,
@@ -27,6 +30,8 @@ const defaultFilms: Film[] = [
     duration: 152,
     description:
       "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.",
+    imageUrl:
+      "https://medias.boutique.lab.arte.tv/prod/69209_vod_thumb_315491.jpg",
   },
 ];
 

@@ -4,7 +4,10 @@ import AddMovieForm from "../AddMovieForm";
 import PageTitle from "../PageTitle";
 
 const AddMoviePage = () => {
-  const { onMovieAdded }: MovieContext = useOutletContext();
+  const { onMovieAdded, authenticatedUser }: MovieContext = useOutletContext();
+  if (!authenticatedUser) {
+    return <p>Veuillez vous connecter pour pouvoir ajouter un film !!</p>
+  }
   return (
     <div>
       <PageTitle title="Add a movie" />
