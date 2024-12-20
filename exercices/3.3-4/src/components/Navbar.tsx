@@ -1,17 +1,19 @@
 import { Link } from "react-router-dom";
 import { MaybeAuthenticatedUser } from "../types";
 import "./Navbar.css";
+import { clearAuthenticatedUser } from "../utils/session";
 
 interface NavBarProps {
   authenticatedUser: MaybeAuthenticatedUser;
-  clearUser: () => void;
+  setAuthenticatedUser: (a: MaybeAuthenticatedUser) => void;
   theme: string;
   setTheme: (theme: string) => void;
 }
 
-const NavBar = ({ authenticatedUser, clearUser, theme, setTheme }: NavBarProps) => {
+const NavBar = ({ authenticatedUser, setAuthenticatedUser, theme, setTheme }: NavBarProps) => {
   const handleLogout = () => {
-    clearUser();
+    clearAuthenticatedUser();
+    setAuthenticatedUser(undefined);
   };
 
   return (

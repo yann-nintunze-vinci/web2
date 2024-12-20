@@ -15,7 +15,6 @@ import {
 import {
   storeAuthenticatedUser,
   getAuthenticatedUser,
-  clearAuthenticatedUser,
 } from "../utils/session";
 import { getTheme, storeTheme } from "../utils/theme";
 import {
@@ -30,6 +29,7 @@ const App = () => {
   const [authenticatedUser, setAuthenticatedUser] =
     useState<MaybeAuthenticatedUser>(undefined);
   const [theme, setTheme] = useState<string>(getTheme()?.theme || "light");
+  const [remember, setRemember] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -143,7 +143,9 @@ const App = () => {
       const authenticatedUser: AuthenticatedUser = await response.json();
 
       setAuthenticatedUser(authenticatedUser);
-      storeAuthenticatedUser(authenticatedUser);
+      if (remember) {
+        storeAuthenticatedUser(authenticatedUser);
+      }
       console.log("authenticatedUser: ", authenticatedUser);
     } catch (err) {
       console.error("loginUser::error: ", err);
@@ -159,6 +161,8 @@ const App = () => {
     registerUser,
     loginUser,
     authenticatedUser,
+    remember,
+    setRemember,
   };
 
   return (
@@ -171,7 +175,7 @@ const App = () => {
         <h2>{authenticatedUser && `Bonjour ${authenticatedUser.username}`}</h2>
         <NavBar
           authenticatedUser={authenticatedUser}
-          clearUser={clearAuthenticatedUser}
+          setAuthenticatedUser={setAuthenticatedUser}
           setTheme={setTheme}
           theme={theme}
         />

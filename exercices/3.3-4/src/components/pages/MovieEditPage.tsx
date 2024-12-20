@@ -11,12 +11,13 @@ const MovieEditPage = () => {
 
   const [title, setTitle] = useState<string>("");
   const [director, setDirector] = useState<string>("");
-  const [duration, setDuration] = useState<number | undefined>(undefined);
+  const [duration, setDuration] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const [description, setDescription] = useState<string | undefined>(undefined);
   const [budget, setBudget] = useState<number | undefined>(undefined);
 
   const navigate = useNavigate();
+
   useEffect(() => {
     if (movie) {
       setTitle(movie.title);
@@ -29,7 +30,7 @@ const MovieEditPage = () => {
   }, [movie]);
 
   if (!authenticatedUser) return <p>Please log in to edit a movie</p>;
-  if (isNaN(movieId) || !movie) return <p>Movie not found</p>;
+  if (!movie) return <p>Movie not found</p>;
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const MovieEditPage = () => {
     if (description !== movie.description)
       updatedFields.description = description;
     if (budget !== movie.budget) updatedFields.budget = budget;
-    console.log(updatedFields);
+
     try {
       if (Object.keys(updatedFields).length > 0) {
         await onMoviePatched(movie.id, updatedFields);
@@ -62,8 +63,10 @@ const MovieEditPage = () => {
           type="text"
           id="title"
           name="title"
-          defaultValue={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          onChange={(e) =>
+            setTitle(e.target.value)
+          }
           required
         />
 
@@ -72,8 +75,10 @@ const MovieEditPage = () => {
           type="text"
           id="director"
           name="director"
-          defaultValue={director}
-          onChange={(e) => setDirector(e.target.value)}
+          value={director}
+          onChange={(e) =>
+            setDirector(e.target.value)
+          }
           required
         />
 
@@ -82,8 +87,10 @@ const MovieEditPage = () => {
           type="number"
           id="duration"
           name="duration"
-          defaultValue={duration}
-          onChange={(e) => setDuration(Number(e.target.value))}
+          value={duration}
+          onChange={(e) =>
+            setDuration(Number(e.target.value))
+          }
           required
         />
 
@@ -92,16 +99,21 @@ const MovieEditPage = () => {
           type="text"
           id="imageUrl"
           name="imageUrl"
-          defaultValue={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          value={imageUrl || ""}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setImageUrl(e.target.value)
+          }
         />
 
         <label htmlFor="description">Description</label>
-        <textarea
+        <input
+          type="text"
           id="description"
           name="description"
-          defaultValue={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={description || ""}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setDescription(e.target.value)
+          }
         />
 
         <label htmlFor="budget">Budget (USD)</label>
@@ -109,8 +121,10 @@ const MovieEditPage = () => {
           type="number"
           id="budget"
           name="budget"
-          defaultValue={budget}
-          onChange={(e) => setBudget(Number(e.target.value))}
+          value={budget || 0}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setBudget(Number(e.target.value))
+          }
         />
 
         <button type="submit">Save changes</button>

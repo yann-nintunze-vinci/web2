@@ -4,7 +4,7 @@ import { MovieContext } from "../../types";
 import "../Form.css";
 
 const LoginPage = () => {
-  const { loginUser }: MovieContext = useOutletContext();
+  const { loginUser, remember, setRemember }: MovieContext = useOutletContext();
 
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -21,14 +21,12 @@ const LoginPage = () => {
     }
   };
 
-  const handleUsernameInputChange = (e: SyntheticEvent) => {
-    const input = e.target as HTMLInputElement;
-    setUsername(input.value);
+  const handleUsernameInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
   };
 
-  const handlePasswordChange = (e: SyntheticEvent) => {
-    const input = e.target as HTMLInputElement;
-    setPassword(input.value);
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
   };
 
   return (
@@ -53,6 +51,10 @@ const LoginPage = () => {
           onChange={handlePasswordChange}
           required
         />
+        <label htmlFor="checkbox">
+          <input type="checkbox" name="checkbox" onClick={() => setRemember(!remember)}/>
+          Remember me
+        </label>
         <button type="submit">Log in</button>
       </form>
     </div>

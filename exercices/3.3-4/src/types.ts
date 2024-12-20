@@ -29,6 +29,8 @@ interface MovieContext {
   registerUser: (newUser: User) => Promise<void>;
   loginUser: (newUser: User) => Promise<void>;
   authenticatedUser: MaybeAuthenticatedUser;
+  remember: boolean;
+  setRemember: (b: boolean) => void;
 }
 
 type NewMovie = Omit<Movie, "id">;
